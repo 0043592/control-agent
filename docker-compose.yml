@@ -1,0 +1,74 @@
+version: '3'
+
+services:
+
+  nginx:
+    restart: always
+    container_name: nginx
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
+
+    volumes:
+      - "/srv/data/nginx/upstreams:/etc/nginx/upstreams"
+      - "/srv/data/nginx/ssl:/etc/nginx/ssl"
+      - "/srv/data/nginx/conf.d:/etc/nginx/conf.d"
+      - "/srv/data/letsencrypt:/etc/letsencrypt"
+
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - redis
+      - control_agent
+
+  control_agent:
+    restart: always
+    container_name: 'control-agent'
+    hostname: agent
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    env_file: .env
+    command: ./control-agent.py run --reconfigure
+    volumes:
+      - "/srv/data/nginx/upstreams:/etc/nginx/upstreams"
+      - "/srv/data/nginx/ssl:/etc/nginx/ssl"
+      - "/srv/data/nginx/conf.d:/etc/nginx/conf.d"
+      - "/srv/data/letsencrypt:/etc/letsencrypt"
+    depends_on:
+      - redis
+
+  socks5:
+    restart: always
+    image: serjs/go-socks5-proxy
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    env_file: .env
+    ports:
+      - "1080:1080"
+
+
+  redis:
+    restart: always
+    image: redis:latest
+    hostname: redis
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
