@@ -403,7 +403,7 @@ if __name__ == "__main__":
             },
         },
         'loggers': {
-            'root': {
+            'agent': {
                 'level': 'DEBUG',
                 'handlers': ['console'],
                 'propagate': False

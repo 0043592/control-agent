@@ -9,7 +9,7 @@ ENV PYTHONUNBUFFERED 1
 ENV PIP_NO_CACHE_DIR 0
 
 # -- Install Pipenv:
-RUN set -ex &&  pip3 install --no-cache-dir --upgrade pip pipenv && mkdir -p /app
+RUN set -ex &&  pip3 install --no-cache-dir --upgrade pip pipenv certbot && mkdir -p /app
 # -- Adding Pipfiles
 ONBUILD COPY Pipfile Pipfile
 ONBUILD COPY Pipfile.lock Pipfile.lock

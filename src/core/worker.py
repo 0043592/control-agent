@@ -6,14 +6,11 @@ import ssl
 import sys
 import traceback
 import typing
-
-# prevent issue: ModuleNotFoundError: No module named 'websockets.exceptions'
 from websockets.exceptions import (
     ConnectionClosed,
     InvalidStatusCode,
 
 )
-# prevent issue: ModuleNotFoundError: No module named 'websockets.legacy'
 from websockets.legacy import client
 
 from core.models import Domain, PENDING, SUCCESS, FAILED
@@ -85,6 +82,7 @@ class Connector:
     async def receive(self):
         try:
             async for message in self.websocket:
+                logger.debug(f'{self}::message: {message}')
                 if isinstance(message, str):
                     await self.receive_json(await self.decode_json(message))
                 else:
@@ -119,7 +117,7 @@ class Connector:
                 except asyncio.QueueEmpty as exc:
                     pass
                 except Exception as exc:
-                    # logger.debug(f'{self}::producer_handler: Exception, {error}')
+                    logger.debug(f'{self}::producer_handler: Exception, {exc}')
                     pass
         except asyncio.CancelledError:
             logger.info(f"websocket producer task shutting down.")
@@ -234,7 +232,7 @@ class Worker(Connector):
             deploy_hook = './control-agent acme_deploy'
 
         command = [
-            'letsencrypt',
+            'certbot',
             'certonly',
             f'--cert-name "{domain}"',
             '--manual',
