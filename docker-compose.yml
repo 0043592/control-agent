@@ -50,9 +50,9 @@ services:
     depends_on:
       - redis
 
-  socks5:
+  3proxy:
     restart: always
-    image: serjs/go-socks5-proxy
+    image: tarampampam/3proxy
     logging:
       driver: "json-file"
       options:
@@ -61,6 +61,7 @@ services:
     env_file: .env
     ports:
       - "1080:1080"
+      - "3128:3128"
 
 
   redis:
