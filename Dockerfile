@@ -1,5 +1,5 @@
 # Pull base image
-FROM python:3.9 as build-system
+FROM python:3.10.4 AS build-system
 # Set environment varibles
 # If this is set to a non-empty string,
 # Python won’t try to write .pyc files on the import of source modules.
@@ -15,7 +15,7 @@ ONBUILD COPY Pipfile Pipfile
 ONBUILD COPY Pipfile.lock Pipfile.lock
 ONBUILD RUN set -ex && pipenv install --deploy --system
 ### create the runtime image ###
-FROM build-system as runtime
+FROM build-system AS runtime
 
 COPY  entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
