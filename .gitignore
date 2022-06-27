@@ -268,3 +268,4 @@ venv.bak/
 .mypy_cache/
 #--------------------- Project.gitignore ---------------------
 .cache/
+TODO.list

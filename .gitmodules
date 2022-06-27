@@ -1,0 +1,6 @@
+[submodule "docker/bgfaker"]
+	path = docker/bgfaker
+	url = https://github.com/0043592/bgfaker.git
+[submodule "docker/watchdog-nginx"]
+	path = docker/watchdog-nginx
+	url = https://github.com/0043592/watchdog-nginx.git

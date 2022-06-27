@@ -1,4 +1,4 @@
-MAJOR, MINOR, BUILD, PATCH = 2, 0, 0, 0
+MAJOR, MINOR, BUILD, PATCH = 2, 0, 0, 1
 __version__ = f'{MAJOR}.{MINOR}.{BUILD}.{PATCH}'
 
 
