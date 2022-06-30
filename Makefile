@@ -1,13 +1,7 @@
 
-
-
-
-
-
 start:
 		@echo "[+] Start All Container"
 		docker-compose up -d --build
-
 
 stop:
 		@echo "[+] Stop All Container"
@@ -21,3 +15,8 @@ vacuum:
 wipe:
 	@echo "[+] stop running container, delete all stopped containers, data, logs"
 	docker-compose down && docker system prune --all --force --volumes && truncate -s 0 /var/lib/docker/containers/*/*-json.log;
+
+
+upgrade:
+	@echo "[+] Upgrading control-agent"
+	git pull --recurse-submodules && docker-compose down && docker system prune --all --force --volumes && docker-compose up -d --build
