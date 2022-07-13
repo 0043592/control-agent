@@ -18,4 +18,4 @@ wipe:
 
 upgrade:
 	@echo "[+] Upgrading control-agent"
-	git pull --recurse-submodules && docker-compose down && docker system prune --all --force --volumes && docker-compose up -d --build
+	git submodule update --recursive --remote && docker-compose down && docker system prune --all --force --volumes && docker-compose up -d --build
