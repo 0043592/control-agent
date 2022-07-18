@@ -14,7 +14,7 @@ vacuum:
 		sudo truncate -s 0 /var/log/**/*.log
 wipe:
 	@echo "[+] stop running container, delete all stopped containers, data, logs"
-	docker-compose down && cd .. && docker system prune --all --force --volumes && truncate -s 0 /var/lib/docker/containers/*/*-json.log;
+	docker stop $(docker ps -q) && cd /srv/ && docker system prune --all --force --volumes && truncate -s 0 /var/lib/docker/containers/*/*-json.log;
 
 upgrade:
 	@echo "[+] Upgrading control-agent"
